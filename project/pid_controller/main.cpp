@@ -218,15 +218,16 @@ int main ()
   /**
   * TODO (Step 1): create pid (pid_steer) for steer command and initialize values
   **/
+    PID pid_steer = PID();
+    pid_steer.Init(0.5, 0.1, 0.1,1.2, -1.2);
 
 
-  // initialize pid throttle
-  /**
-  * TODO (Step 1): create pid (pid_throttle) for throttle command and initialize values
-  **/
-
-  PID pid_steer = PID();
-  PID pid_throttle = PID();
+    // initialize pid throttle
+    /**
+    * TODO (Step 1): create pid (pid_throttle) for throttle command and initialize values
+    **/
+    PID pid_throttle = PID();
+    pid_throttle.Init(0.1, 0.02, 0.3,1, -1);
 
   h.onMessage([&pid_steer, &pid_throttle, &new_delta_time, &timer, &prev_timer, &i, &prev_timer](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode)
   {
@@ -326,7 +327,7 @@ int main ()
           * TODO (step 2): uncomment these lines
           **/
 //           // Update the delta time with the previous command
-//           pid_throttle.UpdateDeltaTime(new_delta_time);
+          pid_throttle.UpdateDeltaTime(new_delta_time);
 
           // Compute error of speed
           double error_throttle;
@@ -334,9 +335,8 @@ int main ()
           * TODO (step 2): compute the throttle error (error_throttle) from the position and the desired speed
           **/
           // modify the following line for step 2
-          error_throttle = 0;
-
-
+          // Error is the speed difference between the actual speed and the desired speed
+          error_throttle = v_points.back() - velocity;
 
           double throttle_output;
           double brake_output;
@@ -345,27 +345,27 @@ int main ()
           * TODO (step 2): uncomment these lines
           **/
 //           // Compute control to apply
-//           pid_throttle.UpdateError(error_throttle);
-//           double throttle = pid_throttle.TotalError();
+           pid_throttle.UpdateError(error_throttle);
+           double throttle = pid_throttle.TotalError();
 
 //           // Adapt the negative throttle to break
-//           if (throttle > 0.0) {
-//             throttle_output = throttle;
-//             brake_output = 0;
-//           } else {
-//             throttle_output = 0;
-//             brake_output = -throttle;
-//           }
+           if (throttle > 0.0) {
+             throttle_output = throttle;
+             brake_output = 0;
+           } else {
+             throttle_output = 0;
+             brake_output = -throttle;
+           }
 
 //           // Save data
-//           file_throttle.seekg(std::ios::beg);
-//           for(int j=0; j < i - 1; ++j){
-//               file_throttle.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-//           }
-//           file_throttle  << i ;
-//           file_throttle  << " " << error_throttle;
-//           file_throttle  << " " << brake_output;
-//           file_throttle  << " " << throttle_output << endl;
+           file_throttle.seekg(std::ios::beg);
+           for(int j=0; j < i - 1; ++j){
+               file_throttle.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+           }
+           file_throttle  << i ;
+           file_throttle  << " " << error_throttle;
+           file_throttle  << " " << brake_output;
+           file_throttle  << " " << throttle_output << endl;
 
 
           // Send control
