@@ -295,13 +295,26 @@ int main ()
           // Compute steer error
           double error_steer;
           double steer_output;
+          int closest_point_idx = 0;
+          double closest_point_distance = std::numeric_limits<double>::max();
 
           /**
           * TODO (step 3): compute the steer error (error_steer) from the position and the desired trajectory
           **/
+          // Find closest point in the desired trajectory
+          for (int i = 0; i < x_points.size(); ++i) {
+              double distance;
+
+              distance = std::hypot(x_points[i] - x_position, y_points[i] - y_position);
+              if(distance < closest_point_distance) {
+                  closest_point_idx = i;
+                  closest_point_distance = distance;
+              }
+          }
+
           // Error is the angle difference between the actual steer and the desired steer
-          double yaw_actual = angle_between_points(x_points[x_points.size()-2], y_points[y_points.size()-2], x_points[x_points.size()-1], y_points[y_points.size()-1]);
-          error_steer = yaw_actual - yaw;
+          double yaw_desired = angle_between_points(x_position, y_position, x_points[closest_point_idx], y_points[closest_point_idx]);
+          error_steer = yaw - yaw_desired;
 
           /**
           * TODO (step 3): uncomment these lines
@@ -336,7 +349,7 @@ int main ()
           **/
           // modify the following line for step 2
           // Error is the speed difference between the actual speed and the desired speed
-          error_throttle = v_points.back() - velocity;
+          error_throttle = velocity - v_points[closest_point_idx];
 
           double throttle_output;
           double brake_output;
