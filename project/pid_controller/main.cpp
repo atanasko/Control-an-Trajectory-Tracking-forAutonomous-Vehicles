@@ -312,6 +312,8 @@ int main ()
               }
           }
 
+          cout << "closest_point_idx: " << closest_point_idx << " x_position: " << x_position << " x_points[closest_point_idx]: " << x_points[closest_point_idx] << endl;
+
           // Error is the angle difference between the actual steer and the desired steer
           double yaw_desired = angle_between_points(x_position, y_position, x_points[closest_point_idx], y_points[closest_point_idx]);
           error_steer = yaw - yaw_desired;
