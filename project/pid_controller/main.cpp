@@ -219,7 +219,7 @@ int main ()
   * TODO (Step 1): create pid (pid_steer) for steer command and initialize values
   **/
     PID pid_steer = PID();
-    pid_steer.Init(0.1, 0.05, 0.4,1.2, -1.2);
+    pid_steer.Init(0.29,0.0011,0.7,1.2,-1.2);
 
 
     // initialize pid throttle
@@ -227,7 +227,7 @@ int main ()
     * TODO (Step 1): create pid (pid_throttle) for throttle command and initialize values
     **/
     PID pid_throttle = PID();
-    pid_throttle.Init(0.1, 0.05, 1.2,1, -1);
+    pid_throttle.Init(0.2,0.001,0.019,1.0,-1.0);
 
   h.onMessage([&pid_steer, &pid_throttle, &new_delta_time, &timer, &prev_timer, &i, &prev_timer](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode)
   {
@@ -316,7 +316,7 @@ int main ()
 
           // Error is the angle difference between the actual steer and the desired steer
           double yaw_desired = angle_between_points(x_position, y_position, x_points[closest_point_idx], y_points[closest_point_idx]);
-          error_steer = yaw - yaw_desired;
+          error_steer = yaw_desired - yaw;
 
           /**
           * TODO (step 3): uncomment these lines
@@ -351,7 +351,7 @@ int main ()
           **/
           // modify the following line for step 2
           // Error is the speed difference between the actual speed and the desired speed
-          error_throttle = velocity - v_points[closest_point_idx];
+          error_throttle = v_points[closest_point_idx] - velocity;
 
           double throttle_output;
           double brake_output;

@@ -11,7 +11,12 @@
 
 using namespace std;
 
-PID::PID() {}
+PID::PID() {
+    p_error = 0.0;
+    i_error = 0.0;
+    d_error = 0.0;
+    delta_time = 0.0;
+}
 
 PID::~PID() {}
 
@@ -24,9 +29,6 @@ void PID::Init(double Kpi, double Kii, double Kdi, double output_lim_maxi, doubl
     Kd = Kdi;
     min_lim = output_lim_mini;
     max_lim = output_lim_maxi;
-    p_error = 0.0;
-    i_error = 0.0;
-    d_error = 0.0;
 }
 
 
