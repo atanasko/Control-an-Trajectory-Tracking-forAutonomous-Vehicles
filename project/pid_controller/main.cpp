@@ -195,20 +195,6 @@ void set_obst(vector<double> x_points, vector<double> y_points, vector<State>& o
 	obst_flag = true;
 }
 
-double _normalize(double angle){
-    if (abs(angle) > M_PI){
-        if (angle < -M_PI){
-            angle += 2*M_PI;
-
-        }
-        if (angle > M_PI){
-            angle -= 2*M_PI;
-        }
-    }
-
-    return angle;
-}
-
 int main ()
 {
   cout << "starting server" << endl;
@@ -233,7 +219,7 @@ int main ()
   * TODO (Step 1): create pid (pid_steer) for steer command and initialize values
   **/
     PID pid_steer = PID();
-    pid_steer.Init(0.3,0.001,0.3,1.2,-1.2);
+    pid_steer.Init(0.29,0.0011,0.7,1.2,-1.2);
 
 
     // initialize pid throttle
@@ -241,7 +227,7 @@ int main ()
     * TODO (Step 1): create pid (pid_throttle) for throttle command and initialize values
     **/
     PID pid_throttle = PID();
-    pid_throttle.Init(0.2,0.0009,0.1,1.0,-1.0);
+    pid_throttle.Init(0.2,0.001,0.3,1.0,-1.0);
 
   h.onMessage([&pid_steer, &pid_throttle, &new_delta_time, &timer, &prev_timer, &i, &prev_timer](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode)
   {
@@ -319,7 +305,6 @@ int main ()
           for (int i = 0; i < x_points.size(); ++i) {
               double distance;
 
-              closest_point_distance = std::hypot(x_points[closest_point_idx] - x_position, y_points[closest_point_idx] - y_position);
               distance = std::hypot(x_points[i] - x_position, y_points[i] - y_position);
               if(distance < closest_point_distance) {
                   closest_point_idx = i;
@@ -331,7 +316,7 @@ int main ()
 
           // Error is the angle difference between the actual steer and the desired steer
           double yaw_desired = angle_between_points(x_position, y_position, x_points[closest_point_idx], y_points[closest_point_idx]);
-          error_steer = _normalize(yaw_desired - yaw);
+          error_steer = yaw_desired - yaw;
 
           /**
           * TODO (step 3): uncomment these lines
