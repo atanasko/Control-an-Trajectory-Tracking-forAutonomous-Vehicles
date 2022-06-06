@@ -115,9 +115,21 @@ pip3 install matplotlib
 
 Answer the following questions:
 - Add the plots to your report and explain them (describe what you see)
+
+    - In the plots we can see error and control output for throttle and steering
+
 - What is the effect of the PID according to the plots, how each part of the PID affects the control command?
+
+    - According to plots P component is proportional to the error, D component reduce the oscillation and I component improve convergence.
+
 - How would you design a way to automatically tune the PID parameters?
+
+    - Use Twiddle (Coordinate Ascent) algorithm to automatically tune the PID parameters
+
 - PID controller is a model free controller, i.e. it does not use a model of the car. Could you explain the pros and cons of this type of controller?
+
+    - It is more easy to develop, but not taking model of the car into account will influence the error and performance in general.
+
 - (Optional) What would you do to improve the PID controller?
 
 
