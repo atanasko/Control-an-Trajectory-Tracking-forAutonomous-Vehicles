@@ -107,7 +107,7 @@ pip3 install pandas
 pip3 install matplotlib
 ```
 
-![Alt text](project/pid_controller/screenshot/PID_controller_init.png "full drive")
+![Alt text](project/pid_controller/screenshot/PID_controller.png "full drive")
 
 ![Alt text](project/pid_controller/screenshot/throttle_control.png "full drive")
 
