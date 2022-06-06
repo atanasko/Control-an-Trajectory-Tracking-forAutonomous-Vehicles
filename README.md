@@ -65,7 +65,7 @@ Complete the TODO in the [pid_controller.h](https://github.com/atanasko/Control-
 
 Run the simulator and see in the desktop mode the car in the CARLA simulator. Take a screenshot and add it to your report. The car should not move in the simulation.
 
-![Alt text](pid_controller/screenshot/PID_controller_init.png "full drive")
+![Alt text](project/pid_controller/screenshot/PID_controller_init.png "full drive")
 
 ### Step 2: PID controller for throttle:
 1) In [main.cpp](https://github.com/atanasko/Control-an-Trajectory-Tracking-forAutonomous-Vehicles/tree/master/project/pid_controller/main.cpp), complete the TODO (step 2) to compute the error for the throttle pid. The error is the speed difference between the actual speed and the desired speed.
@@ -107,9 +107,11 @@ pip3 install pandas
 pip3 install matplotlib
 ```
 
-![Alt text](pid_controller/screenshot/throttle_control.png "full drive")
+![Alt text](project/pid_controller/screenshot/PID_controller_init.png "full drive")
 
-![Alt text](pid_controller/screenshot/steering_control.png "full drive")
+![Alt text](project/pid_controller/screenshot/throttle_control.png "full drive")
+
+![Alt text](project/pid_controller/screenshot/steering_control.png "full drive")
 
 Answer the following questions:
 - Add the plots to your report and explain them (describe what you see)
